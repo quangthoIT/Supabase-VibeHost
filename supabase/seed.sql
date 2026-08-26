@@ -13,11 +13,10 @@
 -- ============================================================
 
 -- Step 1: After creating users via Auth, run this manually with real UUIDs:
-/*
 do $$
 declare
-  user_a_id uuid := 'REPLACE_WITH_USER_A_UUID';
-  user_b_id uuid := 'REPLACE_WITH_USER_B_UUID';
+  user_a_id uuid := '143b1dab-1e06-4853-809c-5822c7286fe5';
+  user_b_id uuid := 'a97bcd3d-e3b0-4d88-8095-c42519a69412';
   proj_id   uuid;
 begin
 
@@ -51,4 +50,3 @@ begin
 
   raise notice 'Seed complete. Project ID: %', proj_id;
 end $$;
-*/

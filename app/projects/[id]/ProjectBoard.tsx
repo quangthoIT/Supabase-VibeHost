@@ -498,7 +498,7 @@ export function ProjectBoard({ project, userRole, currentUserId, members, initia
                   </div>
                   <div style={{ display: "flex", gap: "1rem", marginTop: "0.25rem" }}>
                     <span className="mono text-muted" style={{ fontSize: "0.7rem" }}>{task.id.slice(0, 8)}...</span>
-                    <span className="text-muted" style={{ fontSize: "0.7rem" }}>
+                    <span className="text-muted" style={{ fontSize: "0.7rem" }} suppressHydrationWarning>
                       updated {new Date(task.updated_at).toLocaleTimeString()}
                     </span>
                   </div>

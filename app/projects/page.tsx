@@ -106,7 +106,7 @@ export default async function ProjectsPage() {
                         {project.description}
                       </p>
                     )}
-                    <p className="text-muted" style={{ fontSize: "0.75rem" }}>
+                    <p className="text-muted" style={{ fontSize: "0.75rem" }} suppressHydrationWarning>
                       {memberCount} member{memberCount !== 1 ? "s" : ""} ·{" "}
                       {new Date(project.created_at).toLocaleDateString()}
                     </p>
