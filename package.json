@@ -1,14 +1,18 @@
 {
-  "name": "test-supabase",
+  "name": "supabase-vibe-host-fixture",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "verify:fixture": "node scripts/verify-fixture.mjs"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.12.5",
+    "@supabase/supabase-js": "^2.112.4",
     "next": "16.3.2",
     "react": "19.2.8",
     "react-dom": "19.2.8"
