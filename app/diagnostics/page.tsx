@@ -8,11 +8,13 @@
 //   Storage upload, Storage read, Realtime, Edge Function
 
 import { useState, useCallback } from "react";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 
 // Prevent static prerendering — this page must be rendered dynamically
 // because it reads runtime env vars and runs Supabase calls
 export const dynamic = "force-dynamic";
+
 
 type TestStatus = "PASS" | "FAIL" | "NOT_TESTED" | "RUNNING";
 
@@ -41,8 +43,10 @@ function maskKey(key: string | undefined): string {
   return key.slice(0, 6) + "..." + key.slice(-4);
 }
 
-// Note: env vars are read at component render time, not build time
-// because this page is force-dynamic
+// NEXT_PUBLIC_ env vars: constant at runtime, defined after helper functions
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+const SUPABASE_HOST = sanitizeUrl(SUPABASE_URL);
 
 const INITIAL_RESULTS: DiagResult[] = [
   { name: "Environment — SUPABASE_URL", status: "NOT_TESTED", message: "Not checked" },
@@ -74,12 +78,8 @@ export default function DiagnosticsPage() {
   const [results, setResults] = useState<DiagResult[]>(INITIAL_RESULTS);
   const [running, setRunning] = useState(false);
   const [projectId, setProjectId] = useState("");
-  const [diagTaskTitle] = useState(`Diagnostics test task ${Date.now()}`);
-
-  // Read env vars at render time (force-dynamic ensures this is runtime, not build time)
-  const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
-  const SUPABASE_HOST = sanitizeUrl(SUPABASE_URL);
+  // Lazy initializer: Date.now() runs once on mount, not on every render
+  const [diagTaskTitle] = useState(() => `Diagnostics test task ${Date.now()}`);
 
   const update = useCallback((name: string, partial: Partial<DiagResult>) => {
     setResults((prev) =>
@@ -476,8 +476,8 @@ export default function DiagnosticsPage() {
           Supabase <span>Vibe Host</span> Test Board
         </div>
         <nav className="header-nav">
-          <a href="/projects">Projects</a>
-          <a href="/login">Login</a>
+          <Link href="/projects">Projects</Link>
+          <Link href="/login">Login</Link>
         </nav>
       </header>
 

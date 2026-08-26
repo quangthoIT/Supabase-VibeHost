@@ -151,8 +151,12 @@ export function ProjectBoard({ project, userRole, currentUserId, members, initia
   }, [project.id, supabase]);
 
   useEffect(() => {
-    loadStats();
-    checkCanEdit();
+    // Use async IIFE so state updates happen inside async callbacks,
+    // not synchronously in the effect body (satisfies react-hooks/set-state-in-effect)
+    void (async () => {
+      await loadStats();
+      await checkCanEdit();
+    })();
   }, [loadStats, checkCanEdit]);
 
   // ---- Create task ----
