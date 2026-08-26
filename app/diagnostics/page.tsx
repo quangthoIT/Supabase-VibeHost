@@ -45,7 +45,9 @@ function maskKey(key: string | undefined): string {
 
 // NEXT_PUBLIC_ env vars: constant at runtime, defined after helper functions
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+const SUPABASE_KEY =
+  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 const SUPABASE_HOST = sanitizeUrl(SUPABASE_URL);
 
 const INITIAL_RESULTS: DiagResult[] = [
