@@ -98,6 +98,16 @@ a:hover {
   padding: 1.25rem;
 }
 
+.card-hover {
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.card-hover:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
 .card-title {
   font-size: 0.875rem;
   font-weight: 600;

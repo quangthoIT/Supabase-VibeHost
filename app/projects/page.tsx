@@ -92,19 +92,7 @@ export default async function ProjectsPage() {
                   href={`/projects/${project.id}`}
                   style={{ textDecoration: "none" }}
                 >
-                  <div
-                    className="card"
-                    style={{
-                      cursor: "pointer",
-                      transition: "border-color 0.15s",
-                    }}
-                    onMouseEnter={(e) => {
-                      (e.currentTarget as HTMLDivElement).style.borderColor = "var(--accent)";
-                    }}
-                    onMouseLeave={(e) => {
-                      (e.currentTarget as HTMLDivElement).style.borderColor = "var(--border)";
-                    }}
-                  >
+                  <div className="card card-hover">
                     <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: "0.5rem" }}>
                       <h2 style={{ fontSize: "1rem", fontWeight: 600, color: "var(--text-primary)" }}>
                         {project.name}
