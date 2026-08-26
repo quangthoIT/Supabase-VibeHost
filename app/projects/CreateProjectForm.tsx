@@ -22,10 +22,14 @@ export default function CreateProjectForm({ userId }: { userId: string }) {
     setLoading(true);
     setError(null);
 
+    // Get active browser user to guarantee matching JWT session
+    const { data: { user: activeUser } } = await supabase.auth.getUser();
+    const currentUserId = activeUser?.id ?? userId;
+
     // PostgREST INSERT — projects
     const { data: project, error: insertError } = await supabase
       .from("projects")
-      .insert({ name: name.trim(), description: description.trim() || null, created_by: userId })
+      .insert({ name: name.trim(), description: description.trim() || null, created_by: currentUserId })
       .select("id")
       .single();
 
@@ -38,7 +42,7 @@ export default function CreateProjectForm({ userId }: { userId: string }) {
     // PostgREST INSERT — project_members (owner)
     const { error: memberError } = await supabase
       .from("project_members")
-      .insert({ project_id: project.id, user_id: userId, role: "owner" });
+      .insert({ project_id: project.id, user_id: currentUserId, role: "owner" });
 
     if (memberError) {
       setError(`Project created but failed to add member: ${memberError.message}`);
