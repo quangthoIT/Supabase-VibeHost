@@ -39,12 +39,15 @@ export default function CreateProjectForm({ userId }: { userId: string }) {
       return;
     }
 
-    // PostgREST INSERT — project_members (owner)
+    // PostgREST INSERT / UPSERT — project_members (owner)
     const { error: memberError } = await supabase
       .from("project_members")
-      .insert({ project_id: project.id, user_id: currentUserId, role: "owner" });
+      .upsert(
+        { project_id: project.id, user_id: currentUserId, role: "owner" },
+        { onConflict: "project_id,user_id" }
+      );
 
-    if (memberError) {
+    if (memberError && memberError.code !== "23505") {
       setError(`Project created but failed to add member: ${memberError.message}`);
       setLoading(false);
       return;
