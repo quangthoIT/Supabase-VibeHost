@@ -187,24 +187,24 @@ After baseline passes, import this repo to Vibe Host and record results.
 
 | Test | Baseline | Vibe Host | Classification | Evidence |
 |------|----------|-----------|---------------|---------|
-| Repo import | PASS | ? | | |
-| Dependency detection | PASS | ? | | |
-| Build | PASS | ? | | |
-| Startup | PASS | ? | | |
-| Login (Auth) | PASS | ? | | |
-| Session after reload | PASS | ? | | |
-| PostgREST SELECT | PASS | ? | | |
-| PostgREST INSERT | PASS | ? | | |
-| RLS allowed | PASS | ? | | |
-| RLS denied | PASS | ? | | |
-| RPC simple | PASS | ? | | |
-| SECURITY DEFINER flow | PASS | ? | | |
-| Storage upload | PASS | ? | | |
-| Storage read | PASS | ? | | |
-| Realtime | PASS | ? | | |
-| Edge Function invoke | PASS | ? | | |
-| Database auto-provision | N/A | ? | | Did Vibe Host provision a PostgreSQL? |
-| DATABASE_URL injected | N/A | ? | | Was DATABASE_URL set by Vibe Host? |
+| Repo import | PASS | PASS | `PASS` | Import Git URL `@ 65a3835f` |
+| Dependency detection | PASS | PASS | `PASS` | Framework `next` (Port 3000) detected |
+| Build | PASS | PASS | `PASS` | Nixpacks `npm run build` clean in 8.1s |
+| Startup | PASS | PASS | `PASS` | Live at `app-b2jigz.cmc-1.vibenode.matbao.ai` |
+| Login (Auth) | PASS | PASS | `PASS_EXTERNAL` | `vaolwhzfsfdkecmoidrs.supabase.co` |
+| Session after reload | PASS | PASS | `PASS_EXTERNAL` | Cookie session active |
+| PostgREST SELECT | PASS | PASS | `PASS_EXTERNAL` | Projects & tasks loaded |
+| PostgREST INSERT | PASS | PASS | `PASS_EXTERNAL` | Created projects & tasks |
+| RLS allowed | PASS | PASS | `PASS_EXTERNAL` | Member CRUD permitted |
+| RLS denied | PASS | PASS | `PASS_EXTERNAL` | Non-member blocked |
+| RPC simple | PASS | PASS | `PASS_EXTERNAL` | `get_project_stats()` returned stats |
+| SECURITY DEFINER flow | PASS | PASS | `PASS_EXTERNAL` | `private.can_edit_project()` elevated |
+| Storage upload | PASS | PASS | `PASS_EXTERNAL` | Uploaded DOCX / images to bucket |
+| Storage read | PASS | PASS | `PASS_EXTERNAL` | Listed files in `task-files` bucket |
+| Realtime | PASS | PASS | `PASS_EXTERNAL` | WebSocket connected |
+| Edge Function invoke | PASS | PASS | `PASS_EXTERNAL` | `send-task-notification` invoked |
+| Database auto-provision | N/A | YES | `FALSE_PROVISION` | Vibe Host created `app-b2jigz-db` |
+| DATABASE_URL injected | N/A | YES | `FALSE_INJECT` | Vibe Host injected 22 DB env vars |
 
 ### Classification codes
 
