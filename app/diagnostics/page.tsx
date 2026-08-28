@@ -166,8 +166,12 @@ export default function DiagnosticsPage() {
         provenance: SUPABASE_HOST,
       });
     } else {
-      if (!testProjectId && projects && projects.length > 0) {
-        testProjectId = projects[0].id;
+      // Auto-detect or fallback to first valid project ID
+      if (projects && projects.length > 0) {
+        const found = projects.find((p) => p.id === testProjectId);
+        if (!found) {
+          testProjectId = projects[0].id;
+        }
       }
       update("PostgREST — SELECT (projects)", {
         status: "PASS",
