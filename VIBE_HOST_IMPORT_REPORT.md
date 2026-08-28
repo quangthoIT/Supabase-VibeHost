@@ -105,20 +105,41 @@ NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 
 ---
 
-## 5. Kết luận Kiểm chứng cho Vibe Host Engine
+## 5. Đánh giá Tính năng Sao lưu (Backup) của Vibe Host
+
+### 📍 Hiện trạng quan sát từ Log Sao lưu:
+Log thao tác sao lưu trên Vibe Host hiển thị:
+```text
+PGDMP ~ app_b2jigz_db 16.15 16.15 q 0 0 ENCODING ... CREATE DATABASE app_b2jigz_db WITH TEMPLATE = template0 ...
+```
+
+### 🔍 Phân tích Kỹ thuật:
+1. **Đối tượng được Vibe Host Sao lưu:**
+   - Vibe Host đang thực hiện lệnh `pg_dump` trên Database PostgreSQL managed tên **`app_b2jigz_db`** mà Vibe Host tự sinh ra.
+2. **Hiệu lực của Bản sao lưu (Backup Validity):**
+   - 🔴 **KHÔNG CÓ GIÁ TRỊ VỚI DỮ LIỆU ỨNG DỤNG:** Vì ứng dụng chạy theo kiến trúc Supabase (`PASS_EXTERNAL`), 100% dữ liệu thật (Users, Projects, Tasks, Storage, Policies, RPC Functions) đều nằm tại hạ tầng **Supabase Cloud (`vaolwhzfsfdkecmoidrs.supabase.co`)**.
+   - Database `app_b2jigz_db` trên Vibe Host là **Database rỗng (Empty template)**.
+   - Nếu bạn thực hiện khôi phục (Restore) bản sao lưu này của Vibe Host, nó chỉ phục hồi lại 1 database rỗng (`template0`), hoàn toàn không khôi phục được dữ liệu ứng dụng.
+3. **Khuyến nghị Quy trình Sao lưu chuẩn (Best Practice):**
+   - **Sao lưu Dữ liệu & Cấu hình:** Bắt buộc thực hiện tại **Supabase Dashboard** (hoặc dùng Supabase CLI `supabase db dump`).
+   - **Vibe Host:** Chỉ đóng vai trò Host mã nguồn Next.js (Application Runtime).
+
+---
+
+## 6. Kết luận Kiểm chứng cho Vibe Host Engine
 
 1. **Khả năng Host Ứng dụng phụ thuộc Supabase:**
    - **ĐẠT (PASS):** Vibe Host import, build Nixpacks, cấp SSL và chạy Next.js App Router 16+ rất mượt mà.
    - Các API `@supabase/ssr` và `@supabase/supabase-js` hoạt động hoàn hảo từ môi trường Vibe Host.
 
-2. **Tác động của việc tiêm `DATABASE_URL` thừa:**
+2. **Tác động của việc tiêm `DATABASE_URL` thừa & Backup rỗng:**
    - Ứng dụng Fixture A **không bị ảnh hưởng hay gãy** vì ứng dụng dùng SDK Supabase kết nối qua HTTP PostgREST `NEXT_PUBLIC_SUPABASE_URL`.
-   - Việc Vibe Host tự động tạo PostgreSQL `app-b2jigz-db` làm tiêu tốn tài nguyên thừa (provisioning không cần thiết) cho các ứng dụng thuần Supabase.
+   - Việc Vibe Host tự động tạo PostgreSQL `app-b2jigz-db` làm tiêu tốn tài nguyên thừa và tạo ra các bản Backup không chứa dữ liệu thật của ứng dụng Supabase.
 
 3. **Bản chất Host:**
    - **Vibe Host đóng vai trò Application Server (Web Host).**
-   - Toàn bộ dữ liệu, Auth, RLS, Storage, Realtime vẫn do Supabase Cloud đảm nhận (`PASS_EXTERNAL`).
+   - Toàn bộ dữ liệu, Auth, RLS, Storage, Realtime và Backup Dữ liệu vẫn do Supabase Cloud đảm nhận (`PASS_EXTERNAL`).
 
 ---
 
-*Báo cáo được lập tự động dựa trên Log kiểm thử thực tế Vibe Host Deployment — 28/08/2026*
+*Báo cáo được cập nhật dựa trên Log kiểm thử thực tế Vibe Host Backup — 28/08/2026*
